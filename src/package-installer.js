@@ -20,9 +20,20 @@ export function packageInstaller(packages) {
     })
 
 
-    // make packages array into object(s)
+    // make packages array into object(s) --> goal => [ {pkg: 'KittenService', dep: 'CamelCaser'}, {pkg: 'CamelCaser: ', dep: ' '} ]
     const arrayToObject = () => {
         const objs = {};
+
+        packages.forEach( val => {
+            const vals = val.split(': ');
+            console.log('values', vals); 
+            
+            const pkg = vals[0]; 
+            const dep = vals[1];
+
+            console.log('pkg', pkg);
+            console.log('dep', dep);
+        })
     }
 
     
