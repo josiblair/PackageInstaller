@@ -3,9 +3,9 @@
 // parse each package in array into array of objects --> "KittenService: CamelCaser" => [{package: 'KittenService', dependency: 'CamelCaser'}]
 // topological sort
 // should probably use a forEach()??
+// create dictionary then sort 
 
 export function packageInstaller(packages) {
-    
     if (packages.length === 0) {
         return "";
     }
@@ -14,31 +14,25 @@ export function packageInstaller(packages) {
         return pack;
     }
 
-    // make packages array into object(s) --> goal => [ {pkg: 'KittenService', dep: 'CamelCaser'}, {pkg: 'CamelCaser: ', dep: ' '} ]
     const arrayToObject = () => {
         const objs = {};
-// split each pkg/dep string and store to variables
+
         packages.forEach( val => {
-            const vals = val.split(': ');
-            console.log('values', vals); 
-            
-            const pkg = vals[0]; 
-            const dep = vals[1];
+            const vals = val.split(':');
 
-            console.log('pkg', pkg);
-            console.log('dep', dep);
+            const pkg = vals[0].trim(); // when given ["KittenService: CamelCaser", "CamelCaser: "]
+            const dep = vals[1].trim(); // returns pkg=KittenService dep=CamelCaser   pkg=CamelCaser dep= 
 
-// check if already in objs const => if not, store into object array
             if( !objs[pkg] ) objs[pkg] = [];
 
-            if(dep.length > 0 && !objs[dep]) objs[dep] = [];
-        });
-        console.log(objs); // returning: { Kittenservice: [], Camelcaser: [] };
-        return objs;
-    }
+            if( dep.length > 0 && !objs[dep] ) objs[dep] = [];
 
-    
-    
+            if( dep.length > 0 ) 
+                objs[pkg].push(dep);
+        });
+
+        return objs;  // returns { KittenService: [ 'CamelCaser' ], CamelCaser: [] }
+    }
   }
   
   export default packageInstaller;
