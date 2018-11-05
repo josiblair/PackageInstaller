@@ -33,6 +33,36 @@ export function packageInstaller(packages) {
 
         return objs;  // returns { KittenService: [ 'CamelCaser' ], CamelCaser: [] }
     }
+
+    const parsed = arrayToObject();
+
+    //recursively sort
+    const firstSort = (parsed) => {
+        const final = [];
+        const sorted = {};
+        const pack = Object.keys(parsed);
+
+        pack.forEach( (val) => {
+            secondSort(val, []);
+        })
+        
+        function secondSort(val, arr) {
+            if( sorted[val] ) {
+                return;
+            }
+            arr.push(val);
+
+            const pkg = parsed[val];
+
+            pkg.forEach( (dep) => {
+                arr.indexOf(dep) >= 0 ? 'contains a cycle' : secondSort(dep, arr);
+            })
+
+            final.push(val);
+        }
+
+        return final;
+    }
   }
   
   export default packageInstaller;
