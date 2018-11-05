@@ -14,4 +14,11 @@ describe('packageInstaller', () => {
       expect(actual).toEqual("KittenService")
     })
   })
+  
+  describe('given list with multiple packages', () => {
+    it('packages array is parsed into array of objects', () => {
+      let actual = installer(["KittenService: CamelCaser", "CamelCaser: "])
+      expect(actual).toEqual({ KittenService: [ 'CamelCaser' ], CamelCaser: [] })
+    })
+  })
 })
