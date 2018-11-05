@@ -23,7 +23,7 @@ export function packageInstaller(packages) {
     // make packages array into object(s) --> goal => [ {pkg: 'KittenService', dep: 'CamelCaser'}, {pkg: 'CamelCaser: ', dep: ' '} ]
     const arrayToObject = () => {
         const objs = {};
-
+// split each pkg/dep string and store to variables
         packages.forEach( val => {
             const vals = val.split(': ');
             console.log('values', vals); 
@@ -33,7 +33,14 @@ export function packageInstaller(packages) {
 
             console.log('pkg', pkg);
             console.log('dep', dep);
-        })
+
+// check if already in objs const => if not, store into object array
+            if( !objs[pkg] ) objs[pkg] = [];
+
+            if(dep.length > 0 && !objs[dep]) objs[dep] = [];
+        });
+        console.log(objs); // returning: { Kittenservice: [], Camelcaser: [] };
+        return objs;
     }
 
     
