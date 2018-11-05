@@ -6,19 +6,13 @@
 
 export function packageInstaller(packages) {
     
-    // check for packages
-    if(packages === null) {
-        return "no packages";
+    if (packages.length === 0) {
+        return "";
     }
-    if( !Array.isArray(packages) ) {
-        return "packages is not array";
+    else if (packages.length === 1) {
+        const pack = packages[0].slice(0, -2);
+        return pack;
     }
-    packages.forEach( val => {
-        if(typeof val !== 'string') {
-            return "packages data type is not string";
-        }
-    })
-
 
     // make packages array into object(s) --> goal => [ {pkg: 'KittenService', dep: 'CamelCaser'}, {pkg: 'CamelCaser: ', dep: ' '} ]
     const arrayToObject = () => {
