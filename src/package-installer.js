@@ -59,7 +59,11 @@ export function packageInstaller(packages) {
             let pkg = param[val];
 
             pkg.forEach( (dep) => {  //max call stack -- looping?
-                 (arr.indexOf(dep) >= 0) ? 'contains a cycle' : secondSort(dep, []);
+                if (arr.indexOf(dep) >= 0) {
+                    return 'contains a cycle'
+                }
+                
+                secondSort(dep, []);
             })
             sorted[val] = true;
             final.push(val);
