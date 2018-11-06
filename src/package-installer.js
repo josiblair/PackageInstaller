@@ -2,8 +2,12 @@
 // if dependencies don't contain cycles, structure is a tree => traverse the tree postOrder and import each package in this order
 // parse each package in array into array of objects --> "KittenService: CamelCaser" => [{package: 'KittenService', dependency: 'CamelCaser'}]
 // topological sort
-// should probably use a forEach()??
-// create dictionary then sort 
+  // Kahn's 1962 topological sort
+  // A map of the input data, with the keys as the packages, and the values as
+  // and array of packages on which it depends.
+// should probably use a forEach() 
+// create dictionary then sort (recursively)
+// *flat dependencies* *dependency hell*
 
 export function packageInstaller(packages) {
     if (packages.length === 0) {
@@ -31,12 +35,12 @@ export function packageInstaller(packages) {
                 objs[pkg].push(dep);
         });
 
-        return objs;  // returns { KittenService: [ 'CamelCaser' ], CamelCaser: [] }
+        return objs;  
     }
 
-    const parsed = arrayToObject();
+    const parsed = arrayToObject();  // { KittenService: [ 'CamelCaser' ], CamelCaser: [] }
 
-    //recursively sort
+    
     const firstSort = (parsed) => {
         const final = [];
         const sorted = {};

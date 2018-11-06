@@ -14,11 +14,21 @@ describe('packageInstaller', () => {
       expect(actual).toEqual("KittenService")
     })
   })
-  
+
   describe('given list with multiple packages', () => {
     it('packages array is parsed into array of objects', () => {
       let actual = installer(["KittenService: CamelCaser", "CamelCaser: "])
       expect(actual).toEqual({ KittenService: [ 'CamelCaser' ], CamelCaser: [] })
+    })
+
+    it('contains circular dependency(ies)', () => {
+      let actual = installer(["KittenService: CamelCaser", "CamelCaser: KittenService"])
+      expect(actual).toEqual('contains a cycle')
+    })
+
+    it('', () => {
+      let actual = installer(["KittenService: CamelCaser", "CamelCaser: "])
+      expect(actual).toEqual('CamelCaser, KittenService')
     })
   })
 })
