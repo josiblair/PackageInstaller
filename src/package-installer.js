@@ -45,14 +45,15 @@ export function packageInstaller(packages) {
         let sorted = {};
         const pack = Object.keys(parsed); // ['KittenService', 'CamelCaser']
 
+
         pack.forEach( (val) => {
             secondSort(val, []);
         })
         
         function secondSort(val, arr) {
-            if( sorted[val] ) {
+            if( sorted[val] ) 
                 return;
-            }
+            
             arr.push(val);
 
             let pkg = param[val];
@@ -60,10 +61,11 @@ export function packageInstaller(packages) {
             pkg.forEach( (dep) => {  //max call stack -- looping?
                  (arr.indexOf(dep) >= 0) ? 'contains a cycle' : secondSort(dep, []);
             })
-
+            sorted[val] = true;
             final.push(val);
+          
         }
-
+        final = final.join(', ');
         return final;
     }
 
@@ -72,7 +74,7 @@ export function packageInstaller(packages) {
     }
     return installOrder();
 
-  }
+  } 
   
   export default packageInstaller;
   
