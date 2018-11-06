@@ -26,7 +26,7 @@ describe('packageInstaller', () => {
       expect(actual).toEqual('contains a cycle')
     })
 
-    it('', () => {
+    it('returns comma separated string in order of install', () => {
       let actual = installer(["KittenService: CamelCaser", "CamelCaser: "])
       expect(actual).toEqual('CamelCaser, KittenService')
     })

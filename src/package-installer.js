@@ -19,13 +19,13 @@ export function packageInstaller(packages) {
     }
 
     const arrayToObject = () => {
-        const objs = {};
+        let objs = {};
 
         packages.forEach( val => {
-            const vals = val.split(':');
+            let vals = val.split(':');
 
-            const pkg = vals[0].trim(); // when given ["KittenService: CamelCaser", "CamelCaser: "]
-            const dep = vals[1].trim(); // returns pkg=KittenService dep=CamelCaser   pkg=CamelCaser dep= 
+            let pkg = vals[0].trim(); // when given ["KittenService: CamelCaser", "CamelCaser: "]
+            let dep = vals[1].trim(); // returns pkg=KittenService dep=CamelCaser   pkg=CamelCaser dep= 
 
             if( !objs[pkg] ) objs[pkg] = [];
 
@@ -40,11 +40,10 @@ export function packageInstaller(packages) {
 
     const parsed = arrayToObject();  // { KittenService: [ 'CamelCaser' ], CamelCaser: [] }
 
-    
-    const firstSort = (parsed) => {
-        const final = [];
-        const sorted = {};
-        const pack = Object.keys(parsed);
+    const firstSort = (param) => {
+        let final = [];
+        let sorted = {};
+        const pack = Object.keys(parsed); // ['KittenService', 'CamelCaser']
 
         pack.forEach( (val) => {
             secondSort(val, []);
@@ -56,10 +55,10 @@ export function packageInstaller(packages) {
             }
             arr.push(val);
 
-            const pkg = parsed[val];
+            let pkg = param[val];
 
-            pkg.forEach( (dep) => {
-                arr.indexOf(dep) >= 0 ? 'contains a cycle' : secondSort(dep, arr);
+            pkg.forEach( (dep) => {  //max call stack -- looping?
+                 (arr.indexOf(dep) >= 0) ? 'contains a cycle' : secondSort(dep, []);
             })
 
             final.push(val);
@@ -67,6 +66,12 @@ export function packageInstaller(packages) {
 
         return final;
     }
+
+    const installOrder = () => {
+        return firstSort(parsed);
+    }
+    return installOrder();
+
   }
   
   export default packageInstaller;
